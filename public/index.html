@@ -11,6 +11,7 @@
 
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js'> </script>
 <script src='bootstrap-3.3.7-dist/js/bootstrap.min.js'></script>
+<script src='client.js'></script>
 
 <body>
 	<div class='container'>
@@ -25,9 +26,9 @@
 		</div>
 		
 		<ul class='nav navbar-nav navbar-right collapse navbar-collapse'>
-			<li><a href='./documents.html'>Documents</a></li>
-			<li><a href='./music.html'>Music</a></li>
-			<li><a href='./videos.html'>Videos</a></li>
+			<li><a href='./books.html'>Books</a></li>
+			<li><a href='./slides.html'>Slides</a></li>
+			<li><a href='./scans.html'>Scans</a></li>
 			<li><a href='./about.html'>About</a></li>
 			<li><a href='./login.html'>Log in</a></li>
 			<li><a href='./signup.html'>Sign up</a></li>
@@ -35,18 +36,11 @@
 		
 	</div>
 
-	<div class='container' style='background-color: yellow;'>
-		<form>
-			Nickname:<br>
-			<input type='text' name='nick'><br>
-			E-Mail:<br>
-			<input type='text' name='user'><br>
-			Password:<br>
-			<input type='text' name='pass'><br>
-			Repeat password:<br>
-			<input type='text' name='pass2'><br>
-			<input type='submit'>
-		</form> 
+	<div class='container' style='background-color: red;'>
+
+		<div class='col-xs-12 col-md-6' id='top-5-uploaders' style='background-color: yellow;'>UPLOADERS</div>
+		<div class='col-xs-12 col-md-6' id='top-5-downloads' style='background-color: orange;'>DOWNLOADS</div>
+		
 	</div>
 </body>
 
