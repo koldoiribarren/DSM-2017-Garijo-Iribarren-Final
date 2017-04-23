@@ -41,9 +41,11 @@ $(document).ready(function() {
 				 	
 	                alert("Has elegido "+ data[2] + " como nombre de usuario.");
 
-	            	$.ajax({type: 'POST', url: '/goToChat'}).done(function(data){
-	            		console.log("Redireccionando al chat");
-	            	});
+	                window.location.replace("http://localhost:8050/boards.html"); 
+
+	            	// $.ajax({type: 'POST', url: '/goToChat'}).done(function(data){
+	            	// 	console.log("Redireccionando al chat");
+	            	// });
 				 	
 
 				 // BUSY NICKNAME

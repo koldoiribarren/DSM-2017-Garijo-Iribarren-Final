@@ -104,9 +104,9 @@ app.post('/login', parseUrlencoded, function(request, response) {
 
 });
 
-app.post('/goToChat', parseUrlencoded, function(request, response) {
-	response.sendFile(__dirname + '/public/boards.html');
-});
+// app.post('/goToChat', parseUrlencoded, function(request, response) {
+// 	response.sendFile(__dirname + '/public/boards.html');
+// });
 
 app.post('/register', parseUrlencoded, function(request, response) {
 	var received = request.body;
