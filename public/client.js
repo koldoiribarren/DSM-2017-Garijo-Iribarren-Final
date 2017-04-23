@@ -1,5 +1,14 @@
 $(document).ready(function() {
-	$('#loginForm').on('submit', function(event) {
+
+	$('#pass_bool').on('change', function(){
+		if ($('#pass_bool').is(':checked')){
+			alert('on');
+		} else if (!$('#pass_bool').is(':checked')){
+			alert('off');
+		}
+	});
+
+	$('#login_form').on('submit', function(event) {
 		event.preventDefault();
 		var form = $(this);
 		var formData = form.serialize();
@@ -9,7 +18,7 @@ $(document).ready(function() {
 			form.trigger('reset');
 		});
 	});
-	$('#signupForm').on('submit', function(event) {
+	$('#register_form').on('submit', function(event) {
 		event.preventDefault();
 		var form = $(this);
 		var formData = form.serialize();

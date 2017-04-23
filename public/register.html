@@ -28,36 +28,25 @@
 	<div class='container-fluid'>
 
 		<div class='text-center' style='margin-right:0px'>
-			<h3>Log In</h3>
+			<h3>Register</h3>
 		</div>
 		<div class='text-center' style='margin-right:0px'>
-			<form id='login_form' method='post' action='/check_name' name='login'>
+			<form id='register_form' method='post' action='/register_name' name='login'>
 
 				<p><input class='btn btn-default' type='text' enabled name='user' placeholder='Enter a name'><p>
 
 				<!-- <p style='color: red;visibility:hidden' id ='comemal'>The name cannot be empty</p> -->
 
-				<p class='hidden'><input type='checkbox' name='pass_bool' id='pass_bool'> I have a password</p>
-
-				<p class='hidden'><input class='btn btn-default' id='password' type='text' disabled name='pass' placeholder='Enter your password'></p>
-
-				<p class='hidden'>
-					<select>
-						<option value='room1'>Chat room 1</option>
-						<option value='room2'>Chat room 2</option>
-					</select>
-				</p>
+				<p><input class='btn btn-default' type='text' enabled name='pass' placeholder='Enter a password'></p>
 
 				<p><input class='btn' type='submit' name='submit' value='Submit' id='btnentra'></p>
-
-				<a  class='hidden' href='register.html'>Register your name</a>
 
 			</form>
 		</div>
 		
 		<div class='navbar navbar-default navbar-fixed-bottom text-center' style='background-color: orange;'>
 			<br>Webpage made by Luis Garijo and Koldo Iribarren
-		</div>
+		</div>		
 	</div>
 </body>
 
