@@ -1,11 +1,11 @@
-// Establish the connection with the socket
-var socket = io.connect('http://localhost:8080');
+// // Establish the connection with the socket
+// var socket = io.connect('http://localhost:8080');
 
-// We assign a new 'on' event to the socket using the name of the new communication, 
-// and define the callback function that acts when the information arrives.
-socket.on('login', function(data){
+// // We assign a new 'on' event to the socket using the name of the new communication, 
+// // and define the callback function that acts when the information arrives.
+// socket.on('login', function(data){
 
-});
+// });
 
 
 $(document).ready(function() {
@@ -22,20 +22,45 @@ $(document).ready(function() {
 		event.preventDefault();
 		var form = $(this);
 		var formData = form.serialize();
-		alert(formData);
-		$.ajax({type: 'POST', url: '/login', data: formData}).done(function(data){
-			console.log(data);
-			form.trigger('reset');
+		console.log(formData);
 
+		//COMPROBAMOS QUE EL CAMPO NO ESTÉ VACÍO 
+		if(document.getElementById("inputUser").value == ""){
 
-			 if (datos[0] == true || datos[1] == false){
+			confirm("Debe introducir un nombre de usuario");
 
-			 } else if(datos[0] == false || datos[1] == true){
+		}else{
 
-			 };
+			$.ajax({type: 'POST', url: '/login', data: formData}).done(function(data){
+				// console.log(formData);
+				// console.log(data);
+				form.trigger('reset');
+				
+				// STORED USER 
+				 if (data[0] == true || data[1] == false){
+				 	
+	                alert("Has elegido "+ data[2] + " como nombre de usuario.");
 
-		});
+	            	$.ajax({type: 'POST', url: '/goToChat'}).done(function(data){
+	            		console.log("Redireccionando al chat");
+	            	});
+				 	
+
+				 // BUSY NICKNAME
+				 } else if(data[0] == false || data[1] == true){
+				 	
+				 	 alert("El nombre de usuario que tratas de usar: "+ data[2] + ", está ocupado, utiliza otro.");			
+
+				 }else{
+
+	                alert("Estamos teniendo problemas con la base de datos, intentelo de nuevo más tarde.");
+	               	               
+				 }
+
+			});
+		}
 	});
+
 	$('#register_form').on('submit', function(event) {
 		event.preventDefault();
 		var form = $(this);

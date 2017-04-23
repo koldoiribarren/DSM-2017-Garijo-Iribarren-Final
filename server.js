@@ -9,7 +9,14 @@ var parseUrlencoded = bodyParser.urlencoded({ extended: false });
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 
+// ORM MODELS
+var User = require('./ORM/ormStructUser.js');
+var NewMessageChat = require('./ORM/ormStructMessage.js');
 
+// VARIABLES
+var MaxNumberOfUsers = 10;
+
+// CONNECTION DATA BASE
 mongoose.Promise = require('bluebird');
 var connection_options = {server : {auto_reconnect: true}, user: 'admin', pass: 'castellano100'};
 db = mongoose.connect('ds149820.mlab.com', 'search_engine_3', 49820, connection_options, function(error){
@@ -37,7 +44,7 @@ app.post('/login', parseUrlencoded, function(request, response) {
 
 
 	//BUSCAMOS TODOS LOS USUARIOS
-	Usuario.find().count(function(error_find_count, count) {
+	User.find().count(function(error_find_count, count) {
 
 		// FORMA DE LOS DATOS DE VUELTA AL CLIENTE
 		//  [UsuarioAlmacenado, nicknameOcupado] -> puede ser true o false
@@ -54,7 +61,7 @@ app.post('/login', parseUrlencoded, function(request, response) {
 
 			} else {
 				// No hay 10 usuarios conectados vamos a comprobar que el nickname no esté ocupado
-				Usuario.find({nickname: datos.user}, function(error_find,docs) {
+				User.find({nickname: datos.user}, function(error_find,docs) {
 				console.log('Hay menos de 10 usuarios conectados');
 
 					if (error_find) {
@@ -66,12 +73,12 @@ app.post('/login', parseUrlencoded, function(request, response) {
 
 						// Nickname libre, almacenamos el usuario
 						console.log('Nickname libre, almacenando usuario...');
-						var insert_user = new Usuario({nickname: datos.user});
+						var insert_user = new User({nickname: datos.user});
 						insert_user.save(function(error) {
 						
 							if (!error) {
 								//almacenamiento correcto
-								response.json([true, false]);
+								response.json([true, false, datos.user]);
 								console.log('...usuario almacenado');
 								console.log('______________________________________________________');
 							} else {
@@ -85,7 +92,7 @@ app.post('/login', parseUrlencoded, function(request, response) {
 					} else {
 
 						// Existe el usuario
-						response.json([false, true]);
+						response.json([false, true, datos.user]);
 						console.log('Nickname ocupado');
 						console.log('______________________________________________________');
 					}
@@ -97,6 +104,10 @@ app.post('/login', parseUrlencoded, function(request, response) {
 
 });
 
+app.post('/goToChat', parseUrlencoded, function(request, response) {
+	response.sendFile(__dirname + '/public/boards.html');
+});
+
 app.post('/register', parseUrlencoded, function(request, response) {
 	var received = request.body;
 	
@@ -105,8 +116,8 @@ app.post('/register', parseUrlencoded, function(request, response) {
 });
 
 
-server.listen(8080, function(){
-	console.log('Listening on port 8080');
+server.listen(8050, function(){
+	console.log('Listening on port 8050');
 });
 
 io.on('login', function(client) {
