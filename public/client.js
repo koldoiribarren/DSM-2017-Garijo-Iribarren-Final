@@ -1,40 +1,40 @@
 $(window).on("load", function() {
 
 
-// Establish the connection with the socket
-var socket = io.connect('http://localhost:8050');
+	// Establish the connection with the socket
+	var socket = io.connect('http://localhost:8050');
 
-// We assign a new 'on' event to the socket using the name of the new communication, 
-// and define the callback function that acts when the information arrives.
-socket.on('connect', function(data){
+	// We assign a new 'on' event to the socket using the name of the new communication, 
+	// and define the callback function that acts when the information arrives.
+	socket.on('connect', function(data){
 
-	 socket.emit('unir', nickname);
-	// $.get("/nombre",function(data){
- //    nickname=data.usuario;
- //    //∫alert(nickname);
- //    socket.emit('unir', nickname);
- //    //socket.emit('añadiruser', nickname);
- //    socket.nickname = nickname;
- //  });
+		//socket.emit('unir', nickname);
+		$.get("/name",function(data){
+	    nickname=data.session_user;
+	    alert('nick ' + nickname);
+	    socket.emit('add', nickname);
+	    //socket.emit('añadiruser', nickname);
+	    socket.nickname = nickname;
+	  });
 
-});
-
-
-socket.on('unir',function(datos){
-	console.log("Nombre: " + datos.info);
-	  $('#user_list').append('<p class="user">'+datos.info+'</p>');
-
-	  // var $content = $('.ventana');
-	  // $content.scrollTop(10000000);
-});
-
-	$('#pass_bool').on('change', function(){
-		if ($('#pass_bool').is(':checked')){
-			alert('on');
-		} else if (!$('#pass_bool').is(':checked')){
-			alert('off');
-		}
 	});
+
+
+	socket.on('add',function(data){
+		console.log("Nombre: " + data.info);
+		  $('#user_list').append('<p class="user">'+data.info+'</p>');
+
+		  // var $content = $('.ventana');
+		  // $content.scrollTop(10000000);
+	});
+
+	// $('#pass_bool').on('change', function(){
+	// 	if ($('#pass_bool').is(':checked')){
+	// 		alert('on');
+	// 	} else if (!$('#pass_bool').is(':checked')){
+	// 		alert('off');
+	// 	}
+	// });
 
 	$('#login_form').on('submit', function(event) {
 		event.preventDefault();
@@ -81,16 +81,16 @@ socket.on('unir',function(datos){
 		}
 	});
 
-	$('#register_form').on('submit', function(event) {
-		event.preventDefault();
-		var form = $(this);
-		var formData = form.serialize();
-		alert(formData);
-		$.ajax({type: 'POST', url: '/register', data: formData}).done(function(data){
-			console.log(data);
-			form.trigger('reset');
-		});
-	});
+	// $('#register_form').on('submit', function(event) {
+	// 	event.preventDefault();
+	// 	var form = $(this);
+	// 	var formData = form.serialize();
+	// 	alert(formData);
+	// 	$.ajax({type: 'POST', url: '/register', data: formData}).done(function(data){
+	// 		console.log(data);
+	// 		form.trigger('reset');
+	// 	});
+	// });
 
 });
 
