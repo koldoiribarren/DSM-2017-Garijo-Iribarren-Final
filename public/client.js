@@ -1,13 +1,32 @@
-$(document).ready(function() {
+$(window).on("load", function() {
 
-	// Establish the connection with the socket
-	var socket = io.connect('http://localhost:8050');
 
-	// We assign a new 'on' event to the socket using the name of the new communication, 
-	// and define the callback function that acts when the information arrives.
-	socket.on('login', function(data){
+// Establish the connection with the socket
+var socket = io.connect('http://localhost:8050');
 
-	});
+// We assign a new 'on' event to the socket using the name of the new communication, 
+// and define the callback function that acts when the information arrives.
+socket.on('connect', function(data){
+
+	 socket.emit('unir', nickname);
+	// $.get("/nombre",function(data){
+ //    nickname=data.usuario;
+ //    //∫alert(nickname);
+ //    socket.emit('unir', nickname);
+ //    //socket.emit('añadiruser', nickname);
+ //    socket.nickname = nickname;
+ //  });
+
+});
+
+
+socket.on('unir',function(datos){
+	console.log("Nombre: " + datos.info);
+	  $('#user_list').append('<p class="user">'+datos.info+'</p>');
+
+	  // var $content = $('.ventana');
+	  // $content.scrollTop(10000000);
+});
 
 	$('#pass_bool').on('change', function(){
 		if ($('#pass_bool').is(':checked')){
@@ -74,5 +93,7 @@ $(document).ready(function() {
 	});
 
 });
+
+
 
 

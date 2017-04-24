@@ -9,6 +9,8 @@ var parseUrlencoded = bodyParser.urlencoded({ extended: false });
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 
+var session = require('express-session');
+
 // ORM MODELS
 var User = require('./ORM/ormStructUser.js');
 var NewMessageChat = require('./ORM/ormStructMessage.js');
@@ -27,6 +29,10 @@ db = mongoose.connect('ds149820.mlab.com', 'search_engine_3', 49820, connection_
 	}
 });
 
+//SESSIONS
+app.use(session({secret: 'idSession',resave: true,
+    saveUninitialized: true}));
+var sess;
 
 app.use(express.static('public'));
 
@@ -120,6 +126,18 @@ server.listen(8050, function(){
 	console.log('Listening on port 8050');
 });
 
-io.on('login', function(client) {
 
+//------------------SOCKET------------------------------// 
+io.on('connection', function(client) {
+
+	console.log('Cliente conectado...');
+
+	client.on('unir', function(nombre) {
+	    client.nickname = nombre;
+	    console.log('Se ha unido: ' + client.nickname);
+	    client.broadcast.emit('unir',{info:'Se ha unido: ' + client.nickname});
+    
+ 	});
+
+	
 });
