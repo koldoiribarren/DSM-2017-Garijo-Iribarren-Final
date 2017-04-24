@@ -7,7 +7,8 @@ var bodyParser = require('body-parser');
 var parseUrlencoded = bodyParser.urlencoded({ extended: false });
 
 var server = require('http').createServer(app);
-var io = require('socket.io').listen(server);
+var io = require('socket.io')(server);
+// var io = require('socket.io')(server);
 
 var session = require('express-session');
 
@@ -114,11 +115,17 @@ app.post('/login', parseUrlencoded, function(request, response) {
 // 	response.sendFile(__dirname + '/public/boards.html');
 // });
 
-app.post('/register', parseUrlencoded, function(request, response) {
-	var received = request.body;
+// app.post('/register', parseUrlencoded, function(request, response) {
+// 	var received = request.body;
 	
-	console.log(received.user + ' + ' + received.pass);
-	response.json('Register data received');
+// 	console.log(received.user + ' + ' + received.pass);
+// 	response.json('Register data received');
+// });
+
+app.get('/name', function(request, response){
+    sess = request.session;
+    console.log(sess +' '+ sess.user);
+    response.send({session_user: sess.user});
 });
 
 
@@ -132,7 +139,7 @@ io.on('connection', function(client) {
 
 	console.log('Cliente conectado...');
 
-	client.on('unir', function(nombre) {
+	client.on('add', function(nombre) {
 	    client.nickname = nombre;
 	    console.log('Se ha unido: ' + client.nickname);
 	    client.broadcast.emit('unir',{info:'Se ha unido: ' + client.nickname});
