@@ -7,8 +7,7 @@ var bodyParser = require('body-parser');
 var parseUrlencoded = bodyParser.urlencoded({ extended: false });
 
 var server = require('http').createServer(app);
-var io = require('socket.io')(server);
-// var io = require('socket.io')(server);
+var io = require('socket.io').listen(server);
 
 var session = require('express-session');
 
@@ -115,17 +114,11 @@ app.post('/login', parseUrlencoded, function(request, response) {
 // 	response.sendFile(__dirname + '/public/boards.html');
 // });
 
-// app.post('/register', parseUrlencoded, function(request, response) {
-// 	var received = request.body;
+app.post('/register', parseUrlencoded, function(request, response) {
+	var received = request.body;
 	
-// 	console.log(received.user + ' + ' + received.pass);
-// 	response.json('Register data received');
-// });
-
-app.get('/name', function(request, response){
-    sess = request.session;
-    console.log(sess +' '+ sess.user);
-    response.send({session_user: sess.user});
+	console.log(received.user + ' + ' + received.pass);
+	response.json('Register data received');
 });
 
 
@@ -139,12 +132,64 @@ io.on('connection', function(client) {
 
 	console.log('Cliente conectado...');
 
-	client.on('add', function(nombre) {
-	    client.nickname = nombre;
-	    console.log('Se ha unido: ' + client.nickname);
-	    client.broadcast.emit('unir',{info:'Se ha unido: ' + client.nickname});
-    
- 	});
+	client.on('mensajeschat', function (datos) {
+  	console.log(datos.info);
+    /* ---- Guardar mensajes en base de datos ---- */
+    var mensaje = new Mensajes({
+      nombre: datos.usuario,
+      mensaje: datos.info,
+      fecha: new Date
+    });
+
+    mensaje.save(function(err){
+      if(!err){
+        console.log('Creado');
+      }else{
+        console.log('Error al crear');
+      }
+    });
+
+  	client.broadcast.emit('mensajeschat', datos);
+  	client.emit('mensajeschat', datos);
+  	//io.sockets.emit('mensajeschat', datos);
+  });
+
+
+  client.on('unir', function(nombre) {
+    client.nickname = nombre;
+    console.log('Se ha unido: ' + client.nickname);
+    client.broadcast.emit('unir',{info:'Se ha unido: ' + client.nickname});
+  });
+
+
+  client.on('añadiruser', function(nombre){
+     client.nickname = nombre;
+     client.broadcast.emit('añadiruser',{usuario:client.nickname});
+     //client.emit('añadiruser',{usuario:client.nickname});
+  });
+
+
+ client.on('escribiendo', function(nombre){
+    client.nickname=nombre;
+    client.broadcast.emit('escribiendo',{usuario:client.nickname});
+  });
+
+
+ client.on('noescribiendo', function(nombre){
+    client.nickname=nombre;
+    client.broadcast.emit('noescribiendo',{usuario:client.nickname});
+  });
+
+  
+  client.on('disconnect', function() {
+    //client.nickname = nombre;
+    console.log('Se ha desconectado: ' + client.nickname);
+    client.broadcast.emit('desconectar', {info:'El usuario '+client.nickname+' ha abandonado la sala'});
+  });
+
+  client.on('quitarlista', function(nombre) {
+    client.broadcast.emit('quitarlista',{info:client.nickname}); 
+  });
 
 	
 });
