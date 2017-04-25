@@ -43,11 +43,11 @@ app.post('/login', parseUrlencoded, function(request, response) {
 	// var received = request.body;
 	// console.log('User ' + received.user + ' successfully logged in');
 	// response.json('Login data received');
-	var data = request.body;
+	var userData = request.body;
 	
 	console.log('___________________LOG IN_____________________________');
-	console.log("Nombre de usuario recibido: " + data.user);
-
+	console.log("Nombre de usuario recibido: " + userData.user);
+	
 
 	//BUSCAMOS TODOS LOS USUARIOS
 	User.find().count(function(error_find_count, count) {
@@ -67,7 +67,7 @@ app.post('/login', parseUrlencoded, function(request, response) {
 
 			} else {
 				// No hay 10 usuarios conectados vamos a comprobar que el nickname no esté ocupado
-				User.find({nickname: data.user}, function(error_find,docs) {
+				User.find({nickname: userData.user}, function(error_find,docs) {
 				console.log('Hay menos de 10 usuarios conectados');
 
 					if (error_find) {
@@ -79,12 +79,12 @@ app.post('/login', parseUrlencoded, function(request, response) {
 
 						// Nickname libre, almacenamos el usuario
 						console.log('Nickname libre, almacenando usuario...');
-						var insert_user = new User({nickname: data.user});
+						var insert_user = new User({nickname: userData.user});
 						insert_user.save(function(error) {
 						
 							if (!error) {
 								//almacenamiento correcto
-								response.json([true, false, data.user]);
+								response.json([true, false, userData.user]);
 								console.log('...usuario almacenado');
 								console.log('______________________________________________________');
 							} else {
@@ -98,7 +98,7 @@ app.post('/login', parseUrlencoded, function(request, response) {
 					} else {
 
 						// Existe el usuario
-						response.json([false, true, data.user]);
+						response.json([false, true, userData.user]);
 						console.log('Nickname ocupado');
 						console.log('______________________________________________________');
 					}
