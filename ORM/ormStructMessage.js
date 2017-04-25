@@ -8,7 +8,7 @@ var NewMessageChat = new Schema(
 	{
 		nickname: String,
  		message: String,
-  		fecha: Date
+  		date: Date
 	}
 );
 //EXPORT THE NewMessageChat MODEL

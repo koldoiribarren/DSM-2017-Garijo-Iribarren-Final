@@ -18,9 +18,9 @@ $(document).ready(function() {
 				form.trigger('reset');
 				
 				// STORED USER 
-				 if (data[0] == true || data[1] == false){
+				 if (data[0] == 4){
 				 	
-	                alert("Has elegido "+ data[2] + " como nombre de usuario.");
+	                alert("Has elegido "+ data[1] + " como nombre de usuario.");
 
 	                window.location.replace("http://localhost:8050/boards.html"); 
 
@@ -28,16 +28,18 @@ $(document).ready(function() {
 	            	// 	console.log("Redireccionando al chat");
 	            	// });
 				 	
-
 				 // BUSY NICKNAME
-				 } else if(data[0] == false || data[1] == true){
+				 } else if(data[0] == 2){
 				 	
-				 	 alert("El nombre de usuario que tratas de usar: "+ data[2] + ", está ocupado, utiliza otro.");			
+				 	 alert("El nombre de usuario que tratas de usar: "+ data[1] + ", está ocupado, utiliza otro.");			
 
-				 }else{
+				 }else if(data[0] == 1){
 
 	                alert("Estamos teniendo problemas con la base de datos, intentelo de nuevo más tarde.");
 	               	               
+				 }else if(data[0] == 3){
+
+				 	alert("Más de 10 usuarios conectados, intentelo de nuevo más tarde");
 				 }
 
 			});

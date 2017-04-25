@@ -4,7 +4,7 @@
 <head>
 	<title>Terra Chat</title>
 	<link href='bootstrap-3.3.7-dist/css/bootstrap.min.css' media='all' rel='stylesheet' />
-	<link rel='stylesheet' type='text/css' href='index.css' />
+	<!-- <link rel='stylesheet' type='text/css' href='index.css' /> -->
 	<meta http-equiv='content-type' content='text/html; charset=UTF-8' />
 	<meta name='viewport' content='width=device-width, initial-scale=1' />
 </head>
@@ -47,13 +47,15 @@
 				<div class='well' style='height:100%;'>
 					<div class='well' id='message_board' style='min-height:87%;'></div>
 					<div id='message_input' style='height:10%;'>
-						<form name="formulario1" id='chatformu' method="post">
+
+						<form class="form-inline" name="formuMessage" id='messageFormu' method="post">
 							<input id='send_message' class='col-xs-10 col-sm-10'></input>
 
-							<button class='btn btn-sm col-xs-1 hidden-sm hidden-md hidden-lg' type='submit' name='submit' value='Submit' id='btnentra'><i class='glyphicon glyphicon-menu-hamburger'></i></button>
+							<!-- <button class='btn btn-sm col-xs-1 hidden-sm hidden-md hidden-lg' type='submit' name='submit' value='Submit' id='MessageButton'><i class='glyphicon glyphicon-menu-hamburger'></i></button> -->
 
-							<input class='btn btn-sm hidden-xs col-md-2' type='submit' name='submit' value='Submit' id='btnentra'></input>
+							<input class='btn btn-sm hidden-xs col-md-2' type='submit' value='Send' id='MessageButton'></input>
 						</form>
+
 					</div>
 				</div>
 			</div>

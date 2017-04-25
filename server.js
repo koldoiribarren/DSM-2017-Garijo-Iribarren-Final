@@ -37,16 +37,69 @@ var sess;
 app.use(express.static('public'));
 
 
+//------GETS-------------//
+
+//GET THE USER NAME
+app.get('/nombre', function(request, response){
+    sess = request.session;
+    response.send({nicknameUser: sess.user});
+    console.log('______________________________________________________');
+    console.log("Usuario conectado :" + sess.user);
+});
+
+//GET THE CONNECTED USERS
+app.get('/users', function(request, response){
+
+  User.find().count(function(err,count){
+    console.log("Número de usuarios conectados: " + count);   
+    User.find().select('nickname').exec(function(err,doc){
+
+      var array=[];
+      for(var i=0;i<count;i++){
+       array[i]=doc[i].nickname;
+      }
+     console.log("Los usuarios conectados son: " + array);
+     response.json({info:array});
+    });
+  });
+
+});
+
+
+app.get('/mensajes', function(request, response){
+
+  NewMessageChat.find().count(function(err,count){
+    console.log("Número de mensajes almacenados :"+ count);   
+
+    NewMessageChat.find().exec(function(err,doc){
+      var array=[];
+      var array2=[];
+      for(var i=0;i<count;i++){
+       array[i]=doc[i].nickname; 
+       array2[i]=doc[i].message;
+      }
+     // console.log('Lista de mensajes:'+ array + array2 );
+     response.json({nickname:array, messages:array2, count:count});
+    });
+  });
+
+});
+
 
 app.post('/login', parseUrlencoded, function(request, response) {
 
 	// var received = request.body;
 	// console.log('User ' + received.user + ' successfully logged in');
 	// response.json('Login data received');
-	var userData = request.body;
+
+	var nicnknameUser= request.body.user;
+
+    console.log("User "+ request.body.user);
+
+    sess = request.session;
 	
 	console.log('___________________LOG IN_____________________________');
-	console.log("Nombre de usuario recibido: " + userData.user);
+	console.log("Nombre de usuario recibido: " + nicnknameUser);
 	
 
 	//BUSCAMOS TODOS LOS USUARIOS
@@ -54,42 +107,46 @@ app.post('/login', parseUrlencoded, function(request, response) {
 
 		// FORMA DE LOS DATOS DE VUELTA AL CLIENTE
 		//  [UsuarioAlmacenado, nicknameOcupado] -> puede ser true o false
+		//  1-> error general, 2->nickname ocupado, 3->más de 10 usuarios, 4->correcto
 		if (error_find_count) {
 						// error en la búsqueda
-			response.json([false, false]);
+			response.json([1]);
 			console.log('Error al buscar todos los usuarios:' + error_find_count);
 			console.log('______________________________________________________');
 		} else {
 				// si hay más de 10 usuarios conectados
 			if (count >= MaxNumberOfUsers) {
 				console.log('Hay 10 usuarios conectados, límite superado');
-				response.json([false, false]);
+				response.json([3]);
+				console.log('______________________________________________________');
 
 			} else {
 				// No hay 10 usuarios conectados vamos a comprobar que el nickname no esté ocupado
-				User.find({nickname: userData.user}, function(error_find,docs) {
+				User.find({nickname: nicnknameUser}, function(error_find,docs) {
 				console.log('Hay menos de 10 usuarios conectados');
 
 					if (error_find) {
 						//error en la búsqueda
-						response.json([false, false]);
+						response.json([1]);
 						console.log('Error al buscar el nickname del usuario:' + error_find);
 						console.log('______________________________________________________');
 					} else if (docs.length == 0) {
 
 						// Nickname libre, almacenamos el usuario
 						console.log('Nickname libre, almacenando usuario...');
-						var insert_user = new User({nickname: userData.user});
+						var insert_user = new User({nickname: nicnknameUser});
 						insert_user.save(function(error) {
 						
 							if (!error) {
 								//almacenamiento correcto
-								response.json([true, false, userData.user]);
+								//asignamos el campo nombre de la sesión con el nicknameUSer
+								sess.user=nicnknameUser;
+								response.json([4, nicnknameUser]);
 								console.log('...usuario almacenado');
 								console.log('______________________________________________________');
 							} else {
 								//error al almacenar
-								response.json([false, false]);
+								response.json([1]);
 								console.log('Error al almacenar el usuario:' + error);
 								console.log('______________________________________________________');
 							}
@@ -98,7 +155,7 @@ app.post('/login', parseUrlencoded, function(request, response) {
 					} else {
 
 						// Existe el usuario
-						response.json([false, true, userData.user]);
+						response.json([2, nicnknameUser]);
 						console.log('Nickname ocupado');
 						console.log('______________________________________________________');
 					}
@@ -130,41 +187,48 @@ server.listen(8050, function(){
 //------------------SOCKET------------------------------// 
 io.on('connection', function(client) {
 
-	console.log('Cliente conectado...');
 
-	client.on('mensajeschat', function (datos) {
-  	console.log(datos.info);
-    /* ---- Guardar mensajes en base de datos ---- */
-    var mensaje = new Mensajes({
-      nombre: datos.usuario,
-      mensaje: datos.info,
-      fecha: new Date
-    });
+	client.on('send-nickname', function(nickname) {
+	    client.nickname = nickname;
+	    console.log('client.nickname: '+client.nickname);
+	});
 
-    mensaje.save(function(err){
-      if(!err){
-        console.log('Creado');
-      }else{
-        console.log('Error al crear');
-      }
-    });
+	// console.log('Cliente conectado...');
 
-  	client.broadcast.emit('mensajeschat', datos);
-  	client.emit('mensajeschat', datos);
-  	//io.sockets.emit('mensajeschat', datos);
-  });
+	client.on('mensajeschat', function (data) {
+
+	  	// console.log(data.message);
+
+	    var NewMessage = new NewMessageChat({
+	      nickname: data.nickname,
+	      message: data.message,
+	      date: new Date
+	    });
+
+	    NewMessage.save(function(err){
+	      if(!err){
+	        console.log('Mensaje almacenado correctamente');
+	      }else{
+	        console.log('Error al almacear el mesanje');
+	      }
+	    });
+
+	  	client.broadcast.emit('mensajeschat', data);
+	  	client.emit('mensajeschat', data);
+	  	//io.sockets.emit('mensajeschat', datos);
+	});
 
 
-  client.on('unir', function(nombre) {
+  client.on('join', function(nombre) {
     client.nickname = nombre;
-    console.log('Se ha unido: ' + client.nickname);
+    // console.log('Se ha unido: ' + client.nickname);
     client.broadcast.emit('unir',{info:'Se ha unido: ' + client.nickname});
   });
 
 
-  client.on('añadiruser', function(nombre){
-     client.nickname = nombre;
-     client.broadcast.emit('añadiruser',{usuario:client.nickname});
+  client.on('addUser', function(name){
+     client.nickname = name;
+     client.broadcast.emit('addUser',{usuario:client.nickname});
      //client.emit('añadiruser',{usuario:client.nickname});
   });
 
@@ -185,10 +249,21 @@ io.on('connection', function(client) {
     //client.nickname = nombre;
     console.log('Se ha desconectado: ' + client.nickname);
     client.broadcast.emit('desconectar', {info:'El usuario '+client.nickname+' ha abandonado la sala'});
+    client.broadcast.emit('quitarlista',{user: client.nickname});
+    	User.remove({nickname: client.nickname}, function(error_delete,docs) {
+
+    		if(!error_delete){
+    			console.log("Usuario elimnado correctamente");
+    		}else{
+    			console.log("Error al eliminar al usuario:" +error_delete);
+    		}
+    	});
+
   });
 
+
   client.on('quitarlista', function(nombre) {
-    client.broadcast.emit('quitarlista',{info:client.nickname}); 
+    client.broadcast.emit('quitarlista',{user: userclient.nickname}); 
   });
 
 	
