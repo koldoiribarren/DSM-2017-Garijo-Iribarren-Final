@@ -161,22 +161,11 @@ app.post('/login', parseUrlencoded, function(request, response) {
 
 });
 
-// app.post('/goToChat', parseUrlencoded, function(request, response) {
-// 	response.sendFile(__dirname + '/public/boards.html');
-// });
-
-// app.post('/register', parseUrlencoded, function(request, response) {
-// 	var received = request.body;
-	
-// 	console.log(received.user + ' + ' + received.pass);
-// 	response.json('Register data received');
-// });
-
-
 server.listen(8050, function(){
 	console.log('Escuchando en el puerto 8050');
 });
 
+//HAY QUE HACER QUE SE BORREN LOS USUARIOS Y LOS MENSAJES SI ACASO
 process.on('SIGINT', function(){
 	console.log('holi');
 	User.remove({}, function(error_delete,docs) {
@@ -241,7 +230,6 @@ io.on('connection', function(client) {
 	});
 
 	client.on('disconnect', function() {
-		//client.nickname = nombre;
 		console.log('Se ha desconectado: ' + client.nickname);
 		client.broadcast.emit('disconnection', {info:'El usuario '+client.nickname+' ha abandonado la sala'});
 		client.broadcast.emit('removeFromList',{user: client.nickname});
