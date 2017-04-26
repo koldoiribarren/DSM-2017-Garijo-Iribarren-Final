@@ -25,13 +25,12 @@ db = mongoose.connect('ds149820.mlab.com', 'search_engine_3', 49820, connection_
 	if (!error){
 		console.log('Connecting to database');
 	} else {
-		console.log(' Error connecting ' + error);
+		console.log('Error connecting: ' + error);
 	}
 });
 
 //SESSIONS
-app.use(session({secret: 'idSession',resave: true,
-    saveUninitialized: true}));
+app.use(session({secret: 'idSession',resave: true, saveUninitialized: true}));
 var sess;
 
 app.use(express.static('public'));
@@ -41,48 +40,44 @@ app.use(express.static('public'));
 
 //GET THE USER NAME
 app.get('/nombre', function(request, response){
-    sess = request.session;
-    response.send({nicknameUser: sess.user});
-    console.log('______________________________________________________');
-    console.log("Usuario conectado :" + sess.user);
+	sess = request.session;
+	response.send({nicknameUser: sess.user});
+	console.log('______________________________________________________');
+	console.log("Usuario conectado :" + sess.user);
 });
 
 //GET THE CONNECTED USERS
 app.get('/users', function(request, response){
 
-  User.find().count(function(err,count){
-    console.log("Número de usuarios conectados: " + count);   
-    User.find().select('nickname').exec(function(err,doc){
-
-      var array=[];
-      for(var i=0;i<count;i++){
-       array[i]=doc[i].nickname;
-      }
-     console.log("Los usuarios conectados son: " + array);
-     response.json({info:array});
-    });
-  });
-
+	User.find().count(function(err,count){
+		console.log("Número de usuarios conectados: " + count);   
+		User.find().select('nickname').exec(function(err,doc){
+			var array=[];
+			for(var i=0;i<count;i++){
+				array[i]=doc[i].nickname;
+		}
+		console.log("Los usuarios conectados son: " + array);
+		response.json({info:array});
+		});
+	});
 });
-
 
 app.get('/mensajes', function(request, response){
 
-  NewMessageChat.find().count(function(err,count){
-    console.log("Número de mensajes almacenados :"+ count);   
+	NewMessageChat.find().count(function(err,count){
+		console.log("Número de mensajes almacenados :"+ count);   
 
-    NewMessageChat.find().exec(function(err,doc){
-      var array=[];
-      var array2=[];
-      for(var i=0;i<count;i++){
-       array[i]=doc[i].nickname; 
-       array2[i]=doc[i].message;
-      }
-     // console.log('Lista de mensajes:'+ array + array2 );
-     response.json({nickname:array, messages:array2, count:count});
-    });
-  });
-
+		NewMessageChat.find().exec(function(err,doc){
+			var array=[];
+			var array2=[];
+			for(var i=0;i<count;i++){
+				array[i]=doc[i].nickname; 
+				array2[i]=doc[i].message;
+			}
+			// console.log('Lista de mensajes:'+ array + array2 );
+			response.json({nickname:array, messages:array2, count:count});
+		});
+	});
 });
 
 
@@ -153,7 +148,6 @@ app.post('/login', parseUrlencoded, function(request, response) {
 						});
 						
 					} else {
-
 						// Existe el usuario
 						response.json([2, nicnknameUser]);
 						console.log('Nickname ocupado');
@@ -171,12 +165,12 @@ app.post('/login', parseUrlencoded, function(request, response) {
 // 	response.sendFile(__dirname + '/public/boards.html');
 // });
 
-app.post('/register', parseUrlencoded, function(request, response) {
-	var received = request.body;
+// app.post('/register', parseUrlencoded, function(request, response) {
+// 	var received = request.body;
 	
-	console.log(received.user + ' + ' + received.pass);
-	response.json('Register data received');
-});
+// 	console.log(received.user + ' + ' + received.pass);
+// 	response.json('Register data received');
+// });
 
 
 server.listen(8050, function(){
@@ -189,82 +183,70 @@ io.on('connection', function(client) {
 
 
 	client.on('send-nickname', function(nickname) {
-	    client.nickname = nickname;
-	    console.log('client.nickname: '+client.nickname);
+		client.nickname = nickname;
+		console.log('client.nickname: '+client.nickname);
 	});
 
-	// console.log('Cliente conectado...');
+	client.on('chatMessages', function (data) {
 
-	client.on('mensajeschat', function (data) {
+		var NewMessage = new NewMessageChat({
+			nickname: data.nickname,
+			message: data.message,
+			date: new Date
+		});
 
-	  	// console.log(data.message);
+		NewMessage.save(function(err){
+			if(!err){
+				console.log('Mensaje almacenado correctamente');
+			} else {
+				console.log('Error al almacear el mesanje');
+			}
+		});
 
-	    var NewMessage = new NewMessageChat({
-	      nickname: data.nickname,
-	      message: data.message,
-	      date: new Date
-	    });
-
-	    NewMessage.save(function(err){
-	      if(!err){
-	        console.log('Mensaje almacenado correctamente');
-	      }else{
-	        console.log('Error al almacear el mesanje');
-	      }
-	    });
-
-	  	client.broadcast.emit('mensajeschat', data);
-	  	client.emit('mensajeschat', data);
-	  	//io.sockets.emit('mensajeschat', datos);
+		client.broadcast.emit('chatMessages', data);
+		client.emit('chatMessages', data);
 	});
 
+	client.on('join', function(name) {
+		client.nickname = name;
+		// console.log('Se ha unido: ' + client.nickname);
+		client.broadcast.emit('join',{info:'Se ha unido: ' + client.nickname});
+	});
 
-  client.on('join', function(nombre) {
-    client.nickname = nombre;
-    // console.log('Se ha unido: ' + client.nickname);
-    client.broadcast.emit('unir',{info:'Se ha unido: ' + client.nickname});
-  });
+	client.on('addUser', function(name){
+		client.nickname = name;
+		client.broadcast.emit('addUser',{user:client.nickname});
+		//client.emit('añadiruser',{usuario:client.nickname});
+	});
 
+	client.on('writing', function(name){
+		client.nickname=name;
+		client.broadcast.emit('writing',{user:client.nickname});
+	});
 
-  client.on('addUser', function(name){
-     client.nickname = name;
-     client.broadcast.emit('addUser',{usuario:client.nickname});
-     //client.emit('añadiruser',{usuario:client.nickname});
-  });
+	client.on('notWriting', function(name){
+		client.nickname=name;
+		client.broadcast.emit('notWriting',{user:client.nickname});
+	});
 
+	client.on('disconnect', function() {
+		//client.nickname = nombre;
+		console.log('Se ha desconectado: ' + client.nickname);
+		client.broadcast.emit('disconnection', {info:'El usuario '+client.nickname+' ha abandonado la sala'});
+		client.broadcast.emit('removeFromList',{user: client.nickname});
+		User.remove({nickname: client.nickname}, function(error_delete,docs) {
 
- client.on('escribiendo', function(nombre){
-    client.nickname=nombre;
-    client.broadcast.emit('escribiendo',{usuario:client.nickname});
-  });
+			if(!error_delete){
+				console.log("Usuario elimnado correctamente");
+			}else{
+				console.log("Error al eliminar al usuario:" +error_delete);
+			}
+		});
+	});
 
-
- client.on('noescribiendo', function(nombre){
-    client.nickname=nombre;
-    client.broadcast.emit('noescribiendo',{usuario:client.nickname});
-  });
-
-  
-  client.on('disconnect', function() {
-    //client.nickname = nombre;
-    console.log('Se ha desconectado: ' + client.nickname);
-    client.broadcast.emit('desconectar', {info:'El usuario '+client.nickname+' ha abandonado la sala'});
-    client.broadcast.emit('quitarlista',{user: client.nickname});
-    	User.remove({nickname: client.nickname}, function(error_delete,docs) {
-
-    		if(!error_delete){
-    			console.log("Usuario elimnado correctamente");
-    		}else{
-    			console.log("Error al eliminar al usuario:" +error_delete);
-    		}
-    	});
-
-  });
-
-
-  client.on('quitarlista', function(nombre) {
-    client.broadcast.emit('quitarlista',{user: userclient.nickname}); 
-  });
+	client.on('removeFromList', function(nombre) {
+		client.broadcast.emit('removeFromList',{user: userclient.nickname}); 
+	});
 
 	
 });
