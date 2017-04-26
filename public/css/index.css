@@ -1,0 +1,29 @@
+body{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
+/*---INDEX---*/
+
+#index_header{
+	min-height: 30%;
+	background-color: orange;
+}
+
+#index_logo{
+	max-height: 200px;
+}
+
+#index_body{
+	height: 60%;
+}
+
+#login_text{
+	margin-top: 10%;
+}
+
+#index_footer{
+	background-color: orange;
+	height:10%;
+}

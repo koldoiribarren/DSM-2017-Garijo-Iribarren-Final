@@ -23,9 +23,9 @@ mongoose.Promise = require('bluebird');
 var connection_options = {server : {auto_reconnect: true}, user: 'admin', pass: 'castellano100'};
 db = mongoose.connect('ds149820.mlab.com', 'search_engine_3', 49820, connection_options, function(error){
 	if (!error){
-		console.log('Connecting to database');
+		console.log('Se ha establecido conexión con la base de datos');
 	} else {
-		console.log('Error connecting: ' + error);
+		console.log('Error conenctando: ' + error);
 	}
 });
 
@@ -174,9 +174,20 @@ app.post('/login', parseUrlencoded, function(request, response) {
 
 
 server.listen(8050, function(){
-	console.log('Listening on port 8050');
+	console.log('Escuchando en el puerto 8050');
 });
 
+process.on('SIGINT', function(){
+	console.log('holi');
+	User.remove({}, function(error_delete,docs) {
+		if(!error_delete){
+			console.log("Usuario elimnado correctamente");
+		}else{
+			console.log("Error al eliminar al usuario:" +error_delete);
+		}
+	});
+	process.exit();
+});
 
 //------------------SOCKET------------------------------// 
 io.on('connection', function(client) {

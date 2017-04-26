@@ -3,17 +3,23 @@
 
 <head>
 	<title>Terra Chat</title>
-	<link href='bootstrap-3.3.7-dist/css/bootstrap.min.css' media='all' rel='stylesheet' />
-	<link rel='stylesheet' type='text/css' href='style.css' />
+
 	<meta http-equiv='content-type' content='text/html; charset=UTF-8' />
 	<meta name='viewport' content='width=device-width, initial-scale=1' />
+
+	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js'> </script>
+	<script src='bootstrap-3.3.7-dist/js/bootstrap.min.js'></script>
+	<script src='client.js'></script>
+	<script src="/socket.io/socket.io.js"></script>
+
+	<link href='bootstrap-3.3.7-dist/css/bootstrap.min.css' media='all' rel='stylesheet' />
+	<link  href='css/boards.css' rel='stylesheet' type='text/css'/>
+
+	<link href = "css/jquery.emojipicker.css" media = "all" rel = "stylesheet" type="text/css"/>
+	<link href = "css/jquery.emojipicker.a.css" media = "all" rel = "stylesheet" type="text/css"/>
+	<link href = "css/jquery.emojipicker.tw.css" media = "all" rel = "stylesheet" type="text/css"/>
+	<link href = "css/jquery.emojipicker.g.css" media = "all" rel = "stylesheet" type="text/css"/>
 </head>
-
-<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js'> </script>
-<script src='bootstrap-3.3.7-dist/js/bootstrap.min.js'></script>
-<script src='client.js'></script>
-<script src="/socket.io/socket.io.js"></script>
-
 
 <body>
 
@@ -29,8 +35,8 @@
 		</div>
 		
 		<ul class='nav navbar-nav navbar-right collapse navbar-collapse' id='link_list'>
-			<li><a href='#' class='btn btn-lg'>Room 1</a></li>
-			<li><a href='#' class='btn btn-lg'>Room 2</a></li>
+			<li><a disabled href='#' class='btn btn-lg'>Room 1</a></li>
+			<li><a disabled href='#' class='btn btn-lg'>Room 2</a></li>
 			<li><a href='#' class='btn btn-lg' id='logout_button'>Log Out</a></li>
 		</ul>
 		
@@ -38,7 +44,8 @@
 
 	<div class='container-fluid' id='chat_body'>
 
-		<div class='well' id='inner_body'>
+		<div id='inner_body'>
+		<!-- <div class='well' id='inner_body'> -->
 
 			<div class='hidden-xs col-sm-3 col-md-3 well' id='user_div'>
 				<div class='well viewport' id='user_list_div'>
@@ -55,9 +62,11 @@
 						<form class="form-inline" name="formuMessage" id='messageFormu' method="post">
 							<input id='send_message' class='col-xs-10 col-sm-10'></input>
 
-							<!-- <button class='btn btn-sm col-xs-1 hidden-sm hidden-md hidden-lg' type='submit' name='submit' value='Submit' id='MessageButton'><i class='glyphicon glyphicon-menu-hamburger'></i></button> -->
+							<button class='btn btn-sm col-xs-2 hidden-sm hidden-md hidden-lg' type='submit' name='submit' value='submit' id='MessageButton'>
+								<i class='glyphicon glyphicon-send'></i>
+							</button>
 
-							<input class='btn btn-sm hidden-xs col-md-2' type='submit' value='Send' id='MessageButton'></input>
+							<input class='btn btn-sm hidden-xs col-md-2' type='submit' value='send' id='MessageButton'></input>
 						</form>
 
 					</div>

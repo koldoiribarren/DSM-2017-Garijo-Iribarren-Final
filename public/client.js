@@ -16,7 +16,7 @@ $(window).on("load", function() {
 			socket.emit('addUser', nickname);
 			socket.emit('send-nickname', nickname);
 
-			console.log("Nombre de usuario resien no más conectado: "+ nickname);
+			//console.log("Nombre de usuario resien no más conectado: "+ nickname);
 		});
 
 		$.get("/users",function(data){
@@ -43,19 +43,18 @@ $(window).on("load", function() {
 	});
 
 	socket.on('chatMessages', function(data) {
-	  //alert('Hay que meter esta info en el chat: ' + datos.info);
 		if(socket.nickname == data.nickname){
-			$('#message_board').append('<p class="otherMessages">'+data.nickname+": "+data.message+'</p>');
+			$('#message_board').append('<p class="otherMessagesP"><span class="otherMessages">'+data.nickname+':</span> '+data.message+'</p>');
 		} else {
-			$('#message_board').append('<p class="selfMessages">'+data.nickname+": "+data.message+'</p>');
+			$('#message_board').append('<p class="selfMessagesP"><span class="selfMessages">'+data.nickname+':</span> '+data.message+'</p>');
 		}
 		var $content = $('.viewport');
 		$content.scrollTop(10000000);
 	});
 
 	socket.on('join',function(data){
-		console.log("Nombre: " + data.info);
-		$('#message_board').append('<p class="infoMessages">'+data.info+'</p>');
+		//console.log("Nombre: " + data.info);
+		$('#message_board').append('<p class="infoMessages">---'+data.info+'---</p>');
 		var $content = $('.viewport');
 		$content.scrollTop(10000000);
 	});
@@ -75,10 +74,8 @@ $(window).on("load", function() {
 	});
 
 	socket.on('disconnection',function(data){
-		$('#message_board').append('<p class="other">'+data.info+'</p>');
-		//borrar el <p> de la lista de contactos
-
-		var $content = $('.ventana');
+		$('#message_board').append('<p class="infoMessages">---'+data.info+'---</p>');
+		var $content = $('.viewport');
 		$content.scrollTop(10000000);
 	});
 
@@ -104,8 +101,7 @@ $(window).on("load", function() {
 	$('#messageFormu').submit(function(e){
 		e.preventDefault();
 		var NewMessage = $('#send_message').val();
-
-		console.log("MEnsaje enviado: "+NewMessage );
+		//console.log("Mensaje enviado: "+NewMessage );
 		// reestablecer el valor a cero
 		$('#send_message').val('');
 		if(NewMessage != "" ){
@@ -146,13 +142,15 @@ $(window).on("load", function() {
 
 	$('#send_message').keyup(function( event ) {
 		if (!isWriting && !($('#send_message').val() == '')){
+			
 			$.get("/nombre",function(data){
-
 				nombre=data.nicknameUser;         
 				socket.emit('writing', nombre);
 			});
 			isWriting = true;
+
 		} else if(isWriting && $('#send_message').val() == ''){
+			
 			$.get("/nombre",function(data){
 				nombre=data.nicknameUser;         
 				socket.emit('notWriting', nombre);
