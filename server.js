@@ -86,10 +86,6 @@ app.get('/mensajes', function(request, response){
 
 app.post('/login', parseUrlencoded, function(request, response) {
 
-	// var received = request.body;
-	// console.log('User ' + received.user + ' successfully logged in');
-	// response.json('Login data received');
-
 	var nicnknameUser= request.body.user;
 
     console.log("User "+ request.body.user);

@@ -7,7 +7,6 @@ $(window).on("load", function() {
 	// and define the callback function that acts when the information arrives.
 	socket.on('connect', function(data){
 
-	// socket.emit('unir', nickname);
 		$.get("/nombre",function(data){
 			nickname = data.nicknameUser;
 
@@ -40,6 +39,8 @@ $(window).on("load", function() {
 	});
 
 	socket.on('chatMessages', function(data) {
+		alert(socket.nickname);
+		alert(data.nickname);
 		if(socket.nickname == data.nickname){
 			$('#message_board').append('<p class="otherMessagesP"><span class="otherMessages">'+data.nickname+':</span> '+data.message+'</p>');
 		} else {
@@ -50,15 +51,13 @@ $(window).on("load", function() {
 	});
 
 	socket.on('join',function(data){
-		//console.log("Nombre: " + data.info);
 		$('#message_board').append('<p class="infoMessages">---'+data.info+'---</p>');
 		var $content = $('.viewport');
 		$content.scrollTop(10000000);
 	});
 
 	socket.on('addUser',function(data){
-		//añadir los usuarios a la lista
-		$('.user_list').append('<li class="userList" id="'+data.user+'">'+data.usuario+'</li>');
+		$('.user_list').append('<li class="userList" id="'+data.user+'">'+data.user+'</li>');
 
 	});
 
