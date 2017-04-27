@@ -77,7 +77,6 @@ app.get('/mensajes', function(request, response){
 				array[i]=doc[i].nickname; 
 				array2[i]=doc[i].message;
 			}
-			// console.log('Lista de mensajes:'+ array + array2 );
 			response.json({nickname:array, messages:array2, count:count});
 		});
 	});
@@ -163,18 +162,6 @@ app.post('/login', parseUrlencoded, function(request, response) {
 server.listen(port, function(){
 	console.log('Escuchando en el puerto 3000');
 });
-
-//HAY QUE HACER QUE SE BORREN LOS USUARIOS Y LOS MENSAJES SI ACASO
-// process.on('SIGINT', function(){
-// 	User.remove({ }, function(error_delete,docs) {
-// 		if(!error_delete){
-// 			console.log("Usuario elimnado correctamente");
-// 		}else{
-// 			console.log("Error al eliminar al usuario:" +error_delete);
-// 		}
-// 	});
-// 	process.exit();
-// });
 
 //------------------SOCKET------------------------------// 
 io.on('connection', function(client) {

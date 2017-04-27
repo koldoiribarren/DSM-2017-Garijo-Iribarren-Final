@@ -1,27 +1,7 @@
 $(window).on("load", function() {
 
 	// Establish the connection with the socket
-	var socket = io.connect(); //'http://localhost:8050'
-
-	// var emoji = new EmojiConvertor();
-
-	// emoji.img_sets = {
-	// 	'apple'    : {'path' : '/build/emoji-data/img-apple-64/'   , 'sheet' : '/build/emoji-data/sheet_apple_64.png',    'mask' : 1 },
-	// 	'google'   : {'path' : '/build/emoji-data/img-google-64/'  , 'sheet' : '/build/emoji-data/sheet_google_64.png',   'mask' : 2 },
-	// 	'twitter'  : {'path' : '/build/emoji-data/img-twitter-64/' , 'sheet' : '/build/emoji-data/sheet_twitter_64.png',  'mask' : 4 },
-	// 	'emojione' : {'path' : '/build/emoji-data/img-emojione-64/', 'sheet' : '/build/emoji-data/sheet_emojione_64.png', 'mask' : 8 }
-	// };
-
-	// emoji.use_sheet = true;
-	// emoji.init_env();
-
-	// emoji.img_set = 'apple';
-	// emoji.text_mode = false;
-
-	// emoji.addAliases({
-	// 	'doge' : '1f415',
-	// 	'cat'  : '1f346'
-	// });
+	var socket = io.connect(); //'http://localhost:3000'
 
 	emojify.run();
 
