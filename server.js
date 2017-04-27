@@ -166,17 +166,16 @@ server.listen(8050, function(){
 });
 
 //HAY QUE HACER QUE SE BORREN LOS USUARIOS Y LOS MENSAJES SI ACASO
-process.on('SIGINT', function(){
-	console.log('holi');
-	User.remove({ }, function(error_delete,docs) {
-		if(!error_delete){
-			console.log("Usuario elimnado correctamente");
-		}else{
-			console.log("Error al eliminar al usuario:" +error_delete);
-		}
-	});
-	process.exit();
-});
+// process.on('SIGINT', function(){
+// 	User.remove({ }, function(error_delete,docs) {
+// 		if(!error_delete){
+// 			console.log("Usuario elimnado correctamente");
+// 		}else{
+// 			console.log("Error al eliminar al usuario:" +error_delete);
+// 		}
+// 	});
+// 	process.exit();
+// });
 
 //------------------SOCKET------------------------------// 
 io.on('connection', function(client) {
