@@ -15,8 +15,9 @@
 	<link href='bootstrap-3.3.7-dist/css/bootstrap.min.css' media='all' rel='stylesheet' />
 	<link  href='css/boards.css' rel='stylesheet' type='text/css'/>
 
-	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/css/basic/emojify.min.css" />
-	<script src="//cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/js/emojify.min.js"></script>
+	<link href="css/emoji.css" rel="stylesheet" type="text/css" />
+	<script src="emoji.js" type="text/javascript"></script>
+	<script src="jquery.emoji.js" type="text/javascript"></script>
 
 </head>
 
@@ -69,23 +70,17 @@
 						<form class="form-inline" name="formuMessage" id='messageFormu' method="post">
 							<input id='send_message' class='col-xs-10 col-sm-10'>
 
-							<button class='btn btn-sm col-xs-2 hidden-sm hidden-md hidden-lg' type='submit' name='submit' value='submit' id='MessageButton'>
+							<button class='btn btn-sm col-xs-2 hidden-sm hidden-md hidden-lg' type='submit' name='submit' id='MessageButton'>
 								<i class='glyphicon glyphicon-send'></i>
 							</button>
 
-							<input class='btn btn-sm hidden-xs col-md-2' type='submit' value='send' id='MessageButton'>
+							<input class='btn btn-sm hidden-xs col-md-2' type='submit' value='Send' id='MessageButton'>
 						</form>
 
 					</div>
 				</div>
 			</div>
-
 		</div>
-
-		<!-- <div class='row text-center' style='background-color: orange; height:10%'>
-			<br>Webpage made by Luis Garijo and Koldo Iribarren
-		</div> -->
-		
 	</div>
 
 	<div class='container-fluid text-center hidden-xs' id='chat_footer'>

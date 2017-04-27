@@ -161,7 +161,7 @@ app.post('/login', parseUrlencoded, function(request, response) {
 });
 
 server.listen(port, function(){
-	console.log('Escuchando en el puerto 8050');
+	console.log('Escuchando en el puerto 3000');
 });
 
 //HAY QUE HACER QUE SE BORREN LOS USUARIOS Y LOS MENSAJES SI ACASO
