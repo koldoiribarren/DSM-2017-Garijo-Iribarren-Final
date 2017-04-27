@@ -1,7 +1,7 @@
 $(window).on("load", function() {
 
 	// Establish the connection with the socket
-	var socket = io.connect('http://localhost:8050');
+	var socket = io.connect(); //'http://localhost:8050'
 
 	// We assign a new 'on' event to the socket using the name of the new communication, 
 	// and define the callback function that acts when the information arrives.
