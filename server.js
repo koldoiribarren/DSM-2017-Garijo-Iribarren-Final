@@ -15,6 +15,9 @@ var session = require('express-session');
 var User = require('./ORM/ormStructUser.js');
 var NewMessageChat = require('./ORM/ormStructMessage.js');
 
+// FOR HEROKU DEPLOY
+var port = process.env.PORT || 3000;
+
 // VARIABLES
 var MaxNumberOfUsers = 10;
 
@@ -161,7 +164,7 @@ app.post('/login', parseUrlencoded, function(request, response) {
 
 });
 
-server.listen(3000, function(){
+server.listen(port, function(){
 	console.log('Escuchando en el puerto 8050');
 });
 
