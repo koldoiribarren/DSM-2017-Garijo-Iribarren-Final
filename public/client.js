@@ -85,19 +85,6 @@ $(window).on("load", function() {
 
 	//--------END SOCKET----------------------------------------//
 
-	// $(document).ready(function() {
-	//   //emoticonos
-	//   $('#chatcomen').emojiPicker({
-	//     //e.preventDefault();
-	//     top: '0px',
-	//     height: '200px',
-	//     width:  '350px'
-
-	//   });  
-	//   $('.search').remove();
-	//   $('.recent').remove();
-	//   $('.shortcode').remove();
-
 	$('#messageFormu').on('submit', function(e){
 		e.preventDefault();
 		var NewMessage = $('#send_message').val();

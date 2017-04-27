@@ -168,7 +168,7 @@ server.listen(8050, function(){
 //HAY QUE HACER QUE SE BORREN LOS USUARIOS Y LOS MENSAJES SI ACASO
 process.on('SIGINT', function(){
 	console.log('holi');
-	User.remove({}, function(error_delete,docs) {
+	User.remove({ }, function(error_delete,docs) {
 		if(!error_delete){
 			console.log("Usuario elimnado correctamente");
 		}else{
