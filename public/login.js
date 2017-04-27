@@ -20,7 +20,7 @@ $(document).ready(function() {
 				if (data[0] == 4){
 				
 					alert('Has elegido '+ data[1] + ' como nombre de usuario.');
-					window.location.replace('http://localhost:8050/boards.html'); 
+					window.location.replace('./boards.html'); 
 	
 				// BUSY NICKNAME
 				} else if(data[0] == 2){
