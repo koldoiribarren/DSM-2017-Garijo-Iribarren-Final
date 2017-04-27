@@ -21,7 +21,7 @@ $(window).on("load", function() {
 		$.get("/users",function(data){
 			$(".user_list").empty();
 			for (var i = 0; i < data.info.length; i++) {
-				$('.user_list').append('<li class="userList" class="'+data.info[i]+'">'+data.info[i]+'</li>');
+				$('.user_list').append('<li class="userList '+data.info[i]+'">'+data.info[i]+'</li>');
 			};
 		});
 
@@ -57,16 +57,16 @@ $(window).on("load", function() {
 	});
 
 	socket.on('addUser',function(data){
-		$('.user_list').append('<li class="userList" class="'+data.user+'">'+data.user+'</li>');
+		$('.user_list').append('<li class="userList '+data.user+'">'+data.user+'</li>');
 
 	});
 
 	socket.on('writing',function(data){
-		document.getElementById(data.usuario).innerHTML=data.user+' escribiendo...';
+		document.getElementsByClassName(data.usuario).innerHTML=data.user+' escribiendo...';
 	});
 
 	socket.on('notWriting',function(data){
-		document.getElementById(data.usuario).innerHTML=data.user;
+		document.getElementsByClassName(data.usuario).innerHTML=data.user;
 	});
 
 	socket.on('disconnection',function(data){
