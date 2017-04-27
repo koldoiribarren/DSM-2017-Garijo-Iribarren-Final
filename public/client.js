@@ -58,7 +58,8 @@ $(window).on("load", function() {
 
 	socket.on('addUser',function(data){
 		//añadir los usuarios a la lista
-		$('.user_list').append('<li class="userList" id="'+data.user+'">'+data.usuario+'</li>');
+		
+		$('.user_list').append('<li class="userList" id="'+data.user+'">'+data.user+'</li>');
 
 	});
 

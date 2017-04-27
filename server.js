@@ -186,7 +186,7 @@ io.on('connection', function(client) {
 
 	client.on('send-nickname', function(nickname) {
 		client.nickname = nickname;
-		console.log('client.nickname: '+client.nickname);
+		//console.log('client.nickname: '+client.nickname);
 	});
 
 	client.on('chatMessages', function (data) {
@@ -217,6 +217,7 @@ io.on('connection', function(client) {
 
 	client.on('addUser', function(name){
 		client.nickname = name;
+		console.log('-_-_ Usuario recien conectado: ' + name);
 		client.broadcast.emit('addUser',{user:client.nickname});
 		//client.emit('añadiruser',{usuario:client.nickname});
 	});
@@ -232,13 +233,16 @@ io.on('connection', function(client) {
 	});
 
 	client.on('disconnect', function() {
+		console.log('____________________DISCONNECTION_____________________');
 		console.log('Se ha desconectado: ' + client.nickname);
 		client.broadcast.emit('disconnection', {info:'El usuario '+client.nickname+' ha abandonado la sala'});
 		client.broadcast.emit('removeFromList',{user: client.nickname});
 		User.remove({nickname: client.nickname}, function(error_delete,docs) {
 
 			if(!error_delete){
+
 				console.log("Usuario elimnado correctamente");
+				console.log('______________________________________________________');
 			}else{
 				console.log("Error al eliminar al usuario:" +error_delete);
 			}
