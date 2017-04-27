@@ -29,9 +29,9 @@ $(window).on("load", function() {
 
 		$.get("/mensajes",function(data){
 
-			//Mostar unicamente 10 mensajes antiguos 
-			if(data.count>10){
-				for (var i = data.count-10; i < data.count; i++) {
+			//Mostar unicamente 20 mensajes antiguos 
+			if(data.count>20){
+				for (var i = data.count-20; i < data.count; i++) {
 					$('#message_board').append('<p class="oldMessages">'+data.nickname[i]+": "+data.messages[i]+'</p>');
 				};
 			} else {
@@ -98,7 +98,7 @@ $(window).on("load", function() {
 	//   $('.recent').remove();
 	//   $('.shortcode').remove();
 
-	$('#messageFormu').submit(function(e){
+	$('#messageFormu').on('submit', function(e){
 		e.preventDefault();
 		var NewMessage = $('#send_message').val();
 		//console.log("Mensaje enviado: "+NewMessage );
@@ -112,7 +112,7 @@ $(window).on("load", function() {
 		}
 	});
 
-	$('#logout_button').click(function(e){
+	$('#logout_button').on('click', function(e){
 		e.preventDefault();
 		socket.emit('disconnect');
 		window.location='/';
@@ -120,7 +120,7 @@ $(window).on("load", function() {
 
 	var isWriting = false;
 
-	$('#send_message').focusin(function( event ){ 
+	$('#send_message').on('focusin', function(event){ 
 		if(!isWriting && !($('#send_message').val() == '')){
 			$.get("/nombre",function(data){
 				nombre=data.nicknameUser;         
@@ -130,7 +130,7 @@ $(window).on("load", function() {
 		}
 	});
 
-	$('#send_message').focusout(function( event ){ 
+	$('#send_message').on('focusout', function(event){ 
 		if(isWriting){
 			$.get("/nombre",function(data){
 				nombre=data.nicknameUser;         
@@ -140,7 +140,7 @@ $(window).on("load", function() {
 		}
 	});
 
-	$('#send_message').keyup(function( event ) {
+	$('#send_message').on('keyup', function(event) {
 		if (!isWriting && !($('#send_message').val() == '')){
 			
 			$.get("/nombre",function(data){

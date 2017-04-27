@@ -19,6 +19,10 @@ body{
 	height: 60%;
 }
 
+#alert_text{
+	color: red;
+}
+
 #login_text{
 	margin-top: 10%;
 }

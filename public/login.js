@@ -6,9 +6,9 @@ $(document).ready(function() {
 		var formData = form.serialize();
 		console.log(formData);
 
-		if(document.getElementById("inputUser").value == ""){
+		if(document.getElementById('inputUser').value == ''){
 
-			confirm("Debe introducir un nombre de usuario");
+			confirm('Debe introducir un nombre de usuario');
 
 		}else{
 
@@ -19,26 +19,25 @@ $(document).ready(function() {
 				// STORED USER 
 				if (data[0] == 4){
 				
-					alert("Has elegido "+ data[1] + " como nombre de usuario.");
-
-					window.location.replace("http://localhost:8050/boards.html"); 
-
+					alert('Has elegido '+ data[1] + ' como nombre de usuario.');
+					window.location.replace('http://localhost:8050/boards.html'); 
 	
 				// BUSY NICKNAME
 				} else if(data[0] == 2){
-
-					alert("El nombre de usuario que tratas de usar: "+ data[1] + ", está ocupado, utiliza otro.");			
-
-				}else if(data[0] == 1){
-
-					alert("Estamos teniendo problemas con la base de datos, intentelo de nuevo más tarde.");
-
-				}else if(data[0] == 3){
-
-					alert("Más de 10 usuarios conectados, intentelo de nuevo más tarde");
+					$('#inputP').append('<p id="alert_text"> El nombre de usuario que tratas de usar está ocupado, utiliza otro</p>');
+				
+				} else if(data[0] == 1){
+					$('#inputP').append('<p id="alert_text"> Estamos teniendo problemas con la base de datos, inténtelo de nuevo más tarde</p>');
+				
+				} else if(data[0] == 3){
+					$('#inputP').append('<p id="alert_text"> Más de 10 usuarios conectados, inténtelo de nuevo más tarde</p>');
 				}
 
 			});
 		}	
 	});
+
+	$('#inputUser').on('click', function(event){
+		$('#alert_text').remove();
+	})
 });
