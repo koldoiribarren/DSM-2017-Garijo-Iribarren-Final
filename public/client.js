@@ -57,6 +57,11 @@ $(window).on("load", function() {
 	});
 
 	socket.on('addUser',function(data){
+<<<<<<< HEAD
+=======
+		//añadir los usuarios a la lista
+		
+>>>>>>> 2052aa80c71f2ad03ef4956dcdb14fff33fdb141
 		$('.user_list').append('<li class="userList" id="'+data.user+'">'+data.user+'</li>');
 
 	});
