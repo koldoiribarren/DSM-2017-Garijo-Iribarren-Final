@@ -76,6 +76,7 @@ $(window).on("load", function() {
 	});
 
 	socket.on('removeFromList',function(data){
+		alert(data.user);
 		document.getElementById(data.user).remove();
 	});
 
