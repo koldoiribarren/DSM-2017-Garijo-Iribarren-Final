@@ -15,15 +15,12 @@ $(window).on("load", function() {
 			socket.emit('join', nickname);
 			socket.emit('addUser', nickname);
 			socket.emit('send-nickname', nickname);
-
-			//console.log("Nombre de usuario resien no más conectado: "+ nickname);
 		});
 
 		$.get("/users",function(data){
-			$("#user_list").empty();
+			$(".user_list").empty();
 			for (var i = 0; i < data.info.length; i++) {
-				//socket.emit('añadiruser', dato.info[i]);
-				$('#user_list').append('<li class="userList" id="'+data.info[i]+'">'+data.info[i]+'</li>');
+				$('.user_list').append('<li class="userList" id="'+data.info[i]+'">'+data.info[i]+'</li>');
 			};
 		});
 
@@ -61,7 +58,7 @@ $(window).on("load", function() {
 
 	socket.on('addUser',function(data){
 		//añadir los usuarios a la lista
-		$('#user_list').append('<li class="userList" id="'+data.user+'">'+data.usuario+'</li>');
+		$('.user_list').append('<li class="userList" id="'+data.user+'">'+data.usuario+'</li>');
 
 	});
 
