@@ -19,10 +19,15 @@ $(window).on("load", function() {
 		});
 
 		$.get("/users",function(data){
-			$(".user_list").empty();
+			$("#user_list").empty();
 			for (var i = 0; i < data.info.length; i++) {
-				$('.user_list').append('<li class="userList '+data.info[i].split(' ').join('+')+'">'+data.info[i]+'</li>');
+				$('#user_list').append('<li class="userList" id="'+data.info[i]+'">'+data.info[i]+'</li>');
 			};
+			$("#user_list_header").empty();
+			for (var i = 0; i < data.info.length; i++) {
+				$('#user_list_header').append('<li class="userList" id="'+data.info[i]+'_header">'+data.info[i]+'</li>');
+			};
+
 		});
 
 		$.get("/mensajes",function(data){
@@ -57,16 +62,20 @@ $(window).on("load", function() {
 	});
 
 	socket.on('addUser',function(data){
-		$('.user_list').append('<li class="userList '+data.user.split(' ').join('+')+'">'+data.user+'</li>');
+		$('#user_list').append('<li class="userList" id="'+data.user+'">'+data.user+'</li>');
+		$('#user_list_header').append('<li class="userList" id="'+data.user+'_header">'+data.user+'</li>');
 
 	});
 
 	socket.on('writing',function(data){
-		document.getElementsByClassName(data.usuario.split(' ').join('+')).innerHTML=data.user+' escribiendo...';
+		document.getElementById(data.user).innerHTML=data.user+' escribiendo...';
+		document.getElementById(data.user+'_header').innerHTML=data.user+' escribiendo...';
+
 	});
 
 	socket.on('notWriting',function(data){
-		document.getElementsByClassName(data.usuario.split(' ').join('+')).innerHTML=data.user;
+		document.getElementById(data.user).innerHTML=data.user;
+		document.getElementById(data.user+'_header').innerHTML=data.user;
 	});
 
 	socket.on('disconnection',function(data){
@@ -76,9 +85,7 @@ $(window).on("load", function() {
 	});
 
 	socket.on('removeFromList',function(data){
-		alert(data.user);
-		alert(data.user.split(' ').join('+'));
-		document.getElementsByClassName(data.user.split(' ').join('+')).remove();
+		document.getElementById(data.user).remove();
 	});
 
 	//--------END SOCKET----------------------------------------//

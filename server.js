@@ -194,24 +194,22 @@ io.on('connection', function(client) {
 
 	client.on('join', function(name) {
 		client.nickname = name;
-		// console.log('Se ha unido: ' + client.nickname);
 		client.broadcast.emit('join',{info:'Se ha unido: ' + client.nickname});
 	});
 
 	client.on('addUser', function(name){
 		client.nickname = name;
 		client.broadcast.emit('addUser',{user:client.nickname});
-		//client.emit('añadiruser',{usuario:client.nickname});
 	});
 
 	client.on('writing', function(name){
 		client.nickname=name;
-		client.broadcast.emit('writing',{user:client.nickname});
+		client.emit('writing',{user:client.nickname});
 	});
 
 	client.on('notWriting', function(name){
 		client.nickname=name;
-		client.broadcast.emit('notWriting',{user:client.nickname});
+		client.emit('notWriting',{user:client.nickname});
 	});
 
 	client.on('disconnect', function() {

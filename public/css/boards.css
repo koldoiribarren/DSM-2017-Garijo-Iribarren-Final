@@ -36,12 +36,22 @@ body{
 	height: 100%;
 }
 
-.user_div{
+#user_div{
 	/*background-color: yellow;*/
 	height: 100%;
 }
 
-.user_list_div{
+#user_div_header{
+	/*background-color: yellow;*/
+	height: 100%;
+}
+
+#user_list_div{
+	background-color: rgb(255,210,127);
+	height: 100%;
+}
+
+#user_list_div_header{
 	background-color: rgb(255,210,127);
 	height: 100%;
 }
