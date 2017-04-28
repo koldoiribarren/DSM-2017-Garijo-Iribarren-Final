@@ -62,11 +62,11 @@ $(window).on("load", function() {
 	});
 
 	socket.on('writing',function(data){
-		document.getElementsByClassName(data.usuario).innerHTML=data.user+' escribiendo...';
+		document.getElementsByClassName(data.usuario.split(' ').join('+')).innerHTML=data.user+' escribiendo...';
 	});
 
 	socket.on('notWriting',function(data){
-		document.getElementsByClassName(data.usuario).innerHTML=data.user;
+		document.getElementsByClassName(data.usuario.split(' ').join('+')).innerHTML=data.user;
 	});
 
 	socket.on('disconnection',function(data){
@@ -76,7 +76,7 @@ $(window).on("load", function() {
 	});
 
 	socket.on('removeFromList',function(data){
-		document.getElementsByClassName(data.user).remove();
+		document.getElementsByClassName(data.user.split(' ').join('+')).remove();
 	});
 
 	//--------END SOCKET----------------------------------------//
