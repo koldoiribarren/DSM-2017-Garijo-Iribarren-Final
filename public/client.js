@@ -76,6 +76,8 @@ $(window).on("load", function() {
 	});
 
 	socket.on('removeFromList',function(data){
+		alert(data.user);
+		alert(data.user.split(' ').join('+'));
 		document.getElementsByClassName(data.user.split(' ').join('+')).remove();
 	});
 
