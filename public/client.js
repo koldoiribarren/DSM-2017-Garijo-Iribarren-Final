@@ -22,7 +22,7 @@ $(window).on("load", function() {
 
 			$("#user_list").empty();
 			for (var i = 0; i < data.info.length; i++) {
-				if(socket.nickname == data.nickname){
+				if(socket.nickname == data.info[i]){
 					$('#user_list').append('<li class="selfUser" id="'+data.info[i]+'">'+data.info[i]+'</li>');
 				} else {
 					$('#user_list').append('<li class="otherUser" id="'+data.info[i]+'">'+data.info[i]+'</li>');
@@ -31,7 +31,7 @@ $(window).on("load", function() {
 			};
 			$("#user_list_header").empty();
 			for (var i = 0; i < data.info.length; i++) {
-				if(socket.nickname == data.nickname){
+				if(socket.nickname == data..info[i]){
 					$('#user_list_header').append('<li class="selfUser" id="'+data.info[i]+'_header">'+data.info[i]+'</li>');
 				} else {
 					$('#user_list_header').append('<li class="otherUser" id="'+data.info[i]+'_header">'+data.info[i]+'</li>');
@@ -73,7 +73,7 @@ $(window).on("load", function() {
 	});
 
 	socket.on('addUser',function(data){
-		if(socket.nickname == data.nickname){
+		if(socket.nickname == data.user){
 			$('#user_list').append('<li class="selfUser" id="'+data.user+'">'+data.user+'</li>');
 			$('#user_list_header').append('<li class="selfUser" id="'+data.user+'_header">'+data.user+'</li>');
 		} else {
