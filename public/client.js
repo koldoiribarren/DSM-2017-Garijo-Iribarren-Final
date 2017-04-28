@@ -27,7 +27,6 @@ $(window).on("load", function() {
 				} else {
 					$('#user_list').append('<li class="otherUser" id="'+data.info[i]+'">'+data.info[i]+'</li>');
 				}
-				// $('#user_list').append('<li class="userList" id="'+data.info[i]+'">'+data.info[i]+'</li>');
 			};
 			$("#user_list_header").empty();
 			for (var i = 0; i < data.info.length; i++) {
@@ -36,7 +35,6 @@ $(window).on("load", function() {
 				} else {
 					$('#user_list_header').append('<li class="otherUser" id="'+data.info[i]+'_header">'+data.info[i]+'</li>');
 				}
-				// $('#user_list_header').append('<li class="userList" id="'+data.info[i]+'_header">'+data.info[i]+'</li>');
 			};
 
 		});
@@ -80,9 +78,6 @@ $(window).on("load", function() {
 			$('#user_list').append('<li class="otherUser" id="'+data.user+'">'+data.user+'</li>');
 			$('#user_list_header').append('<li class="otherUser" id="'+data.user+'_header">'+data.user+'</li>');
 		}
-		// $('#user_list').append('<li class="userList" id="'+data.user+'">'+data.user+'</li>');
-		// $('#user_list_header').append('<li class="userList" id="'+data.user+'_header">'+data.user+'</li>');
-
 	});
 
 	socket.on('writing',function(data){
