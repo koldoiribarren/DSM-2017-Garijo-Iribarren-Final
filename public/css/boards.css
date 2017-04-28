@@ -125,7 +125,19 @@ body{
 	word-wrap: break-word;
 }
 
-.userList{
+.selfUser{
+	color: rgb(245,245,245);
+	font-weight: bold;
+	background-color: rgb(248,231,197);
+	border: solid;
+	border-color:white;
+	border-width: 4px;
+	text-align: center;
+	word-wrap: break-word;
+}
+
+.otherUser{
+	color: rgb(245,245,245);
 	font-weight: bold;
 	background-color: rgb(248,231,197);
 	border: solid;
