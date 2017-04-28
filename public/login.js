@@ -4,7 +4,6 @@ $(document).ready(function() {
 		event.preventDefault();
 		var form = $(this);
 		var formData = form.serialize();
-		console.log(formData);
 
 		if(document.getElementById('inputUser').value == ''){
 

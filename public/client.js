@@ -21,7 +21,7 @@ $(window).on("load", function() {
 		$.get("/users",function(data){
 			$(".user_list").empty();
 			for (var i = 0; i < data.info.length; i++) {
-				$('.user_list').append('<li class="userList '+data.info[i]+'">'+data.info[i]+'</li>');
+				$('.user_list').append('<li class="userList '+data.info[i].split(' ').join('+')+'">'+data.info[i]+'</li>');
 			};
 		});
 
@@ -57,7 +57,7 @@ $(window).on("load", function() {
 	});
 
 	socket.on('addUser',function(data){
-		$('.user_list').append('<li class="userList '+data.user+'">'+data.user+'</li>');
+		$('.user_list').append('<li class="userList '+data.user.split(' ').join('+')+'">'+data.user+'</li>');
 
 	});
 
