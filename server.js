@@ -204,12 +204,12 @@ io.on('connection', function(client) {
 
 	client.on('writing', function(name){
 		client.nickname=name;
-		client.emit('writing',{user:client.nickname});
+		client.broadcast.emit('writing',{user:client.nickname});
 	});
 
 	client.on('notWriting', function(name){
 		client.nickname=name;
-		client.emit('notWriting',{user:client.nickname});
+		client.broadcast.emit('notWriting',{user:client.nickname});
 	});
 
 	client.on('disconnect', function() {
