@@ -86,6 +86,8 @@ $(window).on("load", function() {
 
 	socket.on('removeFromList',function(data){
 		document.getElementById(data.user).remove();
+		document.getElementById(data.user+'_header').remove();
+
 	});
 
 	//--------END SOCKET----------------------------------------//
